@@ -1,0 +1,22 @@
+button {
+    background-color: rgb(6, 179, 121);
+    color: rgb(226, 226, 226);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    font-size: medium;
+    border-radius: 1rem;
+    border-color: rgb(163, 163, 27);
+    max-width: 8rem;
+    margin-left: 1rem;
+}
+.listStyle {
+    /* background-color: green; */
+    font-family: Arial, Helvetica, sans-serif;
+    /* text-align: center; */
+}
+.itemDetails {
+    text-align: center;
+}
+.imageCircle {
+    border-radius: 50%;
+}
