@@ -1,46 +1,46 @@
-import {Accordion} from "react-bootstrap";
-import React from 'react';
+import { Accordion } from "react-bootstrap";
+import useDataContext from "../../hooks/useDataContext";
+import React from "react";
 
+const Cart = () => {
+  const { data, setData } = useDataContext();
 
-const Cart = ({data}) => {
-
-    const [items, setItems] = React.useState(data);
-    const [cart, setCart] = React.useState([]);
-
-    console.log(items);
-
-    const deleteCartItem = (delIndex) => {
-      // this is the index in the cart not in the Product List
-    
-      let newCart = cart.filter((item, i) => delIndex !== i);
-      let target = cart.filter((item, index) => delIndex === index);
-      let newItems = items.map((item, index) => {
-        if (item.name === target[0].name) item.instock = item.instock + 1;
-        return item;
-      });
-      setCart(newCart);
-      setItems(newItems);
-    };
-
-    const accordionItems = cart.map((prod, index) => {
-        return (
-          <Accordion.Item key={index} eventKey={index}>
-            <Accordion.Header>{prod.name} ${prod.cost}</Accordion.Header>
-              <Accordion.Body>
-                Country: {prod.country} - Stock: {prod.instock}
-              </Accordion.Body>
-
-          </Accordion.Item>
-
-
-        )
-
-    })
-    return (
-      <>
-      <Accordion defaultActiveKey="0">{accordionItems}</Accordion>
-      </>
-    );
+  const deleteCartItem2 = (product) => {
+    const updatedData = data.map((item) => {
+      if (item.id === product.id) {
+        item.instock += item.cartQuantity;
+        item.cartQuantity = 0;
+        item.isInCart = false;
+      }
+      return item;
+    });
+    setData(updatedData);
   };
 
-  export default Cart;
+  const accordionItems = data.map((prod, index) => {
+    return (
+      <>
+        {prod.isInCart ? (
+          <Accordion.Item key={index} eventKey={index}>
+            <Accordion.Header>
+              {prod.name} ${prod.cost} - {prod.cartQuantity}
+            </Accordion.Header>
+            <Accordion.Body>
+              Country: {prod.country}
+              <button onClick={() => deleteCartItem2(prod)}>Delete</button>
+            </Accordion.Body>
+          </Accordion.Item>
+        ) : (
+          <></>
+        )}
+      </>
+    );
+  });
+  return (
+    <>
+      <Accordion defaultActiveKey="0">{accordionItems}</Accordion>
+    </>
+  );
+};
+
+export default Cart;
